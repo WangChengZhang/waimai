@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zwc.waimai.dao.UserMapper">
+	<resultMap id="userResultMap" type="User">
+		<id column="userid" property="userid" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="uq_telephone" property="uqTelephone" jdbcType="VARCHAR" />
+		<result column="uq_email" property="uqEmail" jdbcType="VARCHAR" />
+		<result column="point" property="point" jdbcType="INTEGER" />
+		<result column="fk_roles_roleid" property="fkRolesRoleid"
+			jdbcType="INTEGER" />
+		<result column="fk_files_icon" property="fkFilesIcon" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="flag" property="flag" jdbcType="INTEGER" />
+		<association property="role"
+			resultMap="xyz.zwc.waimai.dao.RoleMapper.roleResultMap" />
+		<association property="icon"
+			resultMap="xyz.zwc.waimai.dao.FileMapper.fileResultMap" />
+	</resultMap>
+
+	<sql id="key">
+		<trim suffixOverrides=","><!-- 忽略后缀 -->
+			<if test="userid!=null">
+				userid,
+			</if>
+			<if test="name!=null">
+				name,
+			</if>
+			<if test="password!=null">
+				password,
+			</if>
+			<if test="uqTelephone!=null">
+				uq_telephone,
+			</if>
+			<if test="uqEmail!=null">
+				uq_email,
+			</if>
+			<if test="point!=null">
+				point,
+			</if>
+			<if test="fkRolesRoleid!=null">
+				fk_roles_roleid,
+			</if>
+			<if test="fkFilesIcon!=null">
+				fk_files_icon,
+			</if>
+			<if test="createTime!=null">
+				create_time,
+			</if>
+			<if test="flag!=null">
+				flag,
+			</if>
+		</trim>
+	</sql>
+	<sql id="value">
+		<trim suffixOverrides=","><!-- 忽略后缀 -->
+			<if test="userid!=null">
+				#{userid},
+			</if>
+			<if test="name!=null">
+				#{name},
+			</if>
+			<if test="password!=null">
+				#{password},
+			</if>
+			<if test="uqTelephone!=null">
+				#{uqTelephone},
+			</if>
+			<if test="uqEmail!=null">
+				#{uqEmail},
+			</if>
+			<if test="point!=null">
+				#{point},
+			</if>
+			<if test="fkRolesRoleid!=null">
+				#{fkRolesRoleid},
+			</if>
+			<if test="fkFilesIcon!=null">
+				#{fkFilesIcon},
+			</if>
+			<if test="createTime!=null">
+				#{createTime},
+			</if>
+			<if test="flag!=null">
+				#{flag},
+			</if>
+		</trim>
+	</sql>
+
+
+	<insert id="insert" parameterType="User">
+		insert into users (
+		<include refid="key" />
+		) values (
+		<include refid="value" />
+		)
+	</insert>
+
+	<update id="update" parameterType="User">
+		update users
+		<set>
+			<if test="name!=null">
+				name=#{name},
+			</if>
+			<if test="password!=null">
+				password=#{password},
+			</if>
+			<if test="uqTelephone!=null">
+				uq_telephone=#{uqTelephone},
+			</if>
+			<if test="uqEmail!=null">
+				uq_email=#{uqEmail},
+			</if>
+			<if test="point!=null">
+				point=#{point},
+			</if>
+			<if test="fkRolesRoleid!=null">
+				fk_roles_roleid=#{fkRolesRoleid},
+			</if>
+			<if test="fkFilesIcon!=null">
+				fk_files_icon=#{fkFilesIcon},
+			</if>
+			<if test="createTime!=null">
+				create_time=#{createTime},
+			</if>
+			<if test="flag!=null">
+				flag=#{flag},
+			</if>
+		</set>
+		where userid=#{userid}
+	</update>
+
+	<delete id="delete" parameterType="User">
+		delete from users where
+		userid=#{userid}
+	</delete>
+
+	<delete id="deleteList">
+		delete from users where userid in
+		<foreach collection="list" open="(" close=")" separator=","
+			item="pk">
+			#{pk}
+		</foreach>
+	</delete>
+
+	<select id="select" parameterType="User" resultMap="userResultMap">
+		select * from
+		users where userid=#{userid}
+	</select>
+
+	<select id="loginByName" resultMap="userResultMap">
+		select * from users where
+		flag=1 and password=#{password} and
+		name=#{username}
+	</select>
+
+	<select id="loginByMail" resultMap="userResultMap">
+		select * from users where
+		flag=1 and password=#{password} and
+		uq_email=#{email}
+	</select>
+
+	<select id="loginByPhone" resultMap="userResultMap">
+		select * from users where
+		flag=1 and password=#{password} and
+		uq_telephone=#{telephone}
+	</select>
+
+	<select id="selectByName" resultMap="userResultMap">
+		select * from users where
+		name=#{username}
+	</select>
+
+	<select id="selectByPhone" resultMap="userResultMap">
+		select * from users where
+		uq_telephone=#{telephone}
+	</select>
+
+	<select id="selectByMail" resultMap="userResultMap">
+		select * from users where
+		uq_email=#{email}
+	</select>
+
+	<select id="selectLastUser" resultMap="userResultMap">
+		select * from users order
+		by userid desc limit 1
+	</select>
+
+</mapper>

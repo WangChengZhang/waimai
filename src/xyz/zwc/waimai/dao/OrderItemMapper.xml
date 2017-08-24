@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zwc.waimai.dao.OrderItemMapper">
+	<resultMap type="OrderItem" id="orderItemResultMap">
+		<id column="fk_orders_orderid" property="fkOrdersOrderid" jdbcType="INTEGER" />
+		<id column="fk_products_productid" property="fkProductsProductid"
+			jdbcType="INTEGER" />
+		<result column="number" property="number" jdbcType="INTEGER" />
+		<association property="product"
+			resultMap="xyz.zwc.waimai.dao.ProductMapper.productResultMapper"></association>
+	</resultMap>
+
+	<insert id="insert" parameterType="OrderItem">
+		insert into order_items
+		(fk_orders_orderid,fk_products_productid,number) values
+		(#{fkOrdersOrderid},#{fkProductsProductid},#{number})
+	</insert>
+</mapper>

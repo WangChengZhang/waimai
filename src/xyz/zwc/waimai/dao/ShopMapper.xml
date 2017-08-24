@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zwc.waimai.dao.ShopMapper">
+	<resultMap type="Shop" id="shopResultMap">
+		<id property="shopid" column="shopid" jdbcType="INTEGER" />
+		<result property="name" column="name" jdbcType="VARCHAR" />
+		<result property="fkShopCatsShopcatid" column="fk_shop_cats_shopcatid"
+			jdbcType="INTEGER" />
+		<result property="fkUsersUserid" column="fk_users_userid"
+			jdbcType="INTEGER" />
+		<result property="fkFilesIcon" column="fk_files_icon" jdbcType="INTEGER" />
+		<result property="fkPoisPoiid" column="fk_pois_poiid" jdbcType="VARCHAR" />
+		<result property="fkQualificationsQualificationid" column="fk_qualifications_qualificationid"
+			jdbcType="INTEGER" />
+		<result property="fkDeliveryRulesDeliveryRule" column="fk_delivery_rules_delivery_rule"
+			jdbcType="INTEGER" />
+		<result property="fkShopStatesShopState" column="fk_shop_states_shop_state"
+			jdbcType="INTEGER" />
+		<result property="address" column="address" jdbcType="VARCHAR" />
+		<result property="basePrice" column="base_price" jdbcType="DECIMAL" />
+		<result property="deliveryPrice" column="delivery_price"
+			jdbcType="DECIMAL" />
+		<result property="averageTime" column="average_time" jdbcType="INTEGER" />
+		<result property="openTime" column="open_time" jdbcType="TIME" />
+		<result property="closeTime" column="close_time" jdbcType="TIME" />
+		<result property="phone" column="phone" jdbcType="VARCHAR" />
+		<result property="announcement" column="announcement" jdbcType="VARCHAR" />
+		<result property="attitudeScore" column="attitude_score"
+			jdbcType="DECIMAL" />
+		<result property="dishScore" column="dish_score" jdbcType="DECIMAL" />
+		<result property="monthlySale" column="monthly_sale" jdbcType="INTEGER" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<result property="flag" column="flag" jdbcType="INTEGER" />
+		<association property="poi"
+			resultMap="xyz.zwc.waimai.dao.PoiMapper.poiResultMap"></association>
+		<association property="productCats"
+			resultMap="xyz.zwc.waimai.dao.ProductCatMapper.productCatResultMap2"></association>
+	</resultMap>
+
+	<resultMap type="Shop" id="shopResultMap2">
+		<id property="shopid" column="shopid" jdbcType="INTEGER" />
+		<result property="name" column="shopname" jdbcType="VARCHAR" />
+		<result property="fkShopCatsShopcatid" column="fk_shop_cats_shopcatid"
+			jdbcType="INTEGER" />
+		<result property="fkUsersUserid" column="fk_users_userid"
+			jdbcType="INTEGER" />
+		<result property="fkFilesIcon" column="fk_files_icon" jdbcType="INTEGER" />
+		<result property="fkPoisPoiid" column="fk_pois_poiid" jdbcType="VARCHAR" />
+		<result property="fkQualificationsQualificationid" column="fk_qualifications_qualificationid"
+			jdbcType="INTEGER" />
+		<result property="fkDeliveryRulesDeliveryRule" column="fk_delivery_rules_delivery_rule"
+			jdbcType="INTEGER" />
+		<result property="fkShopStatesShopState" column="fk_shop_states_shop_state"
+			jdbcType="INTEGER" />
+		<result property="address" column="address" jdbcType="VARCHAR" />
+		<result property="basePrice" column="base_price" jdbcType="DECIMAL" />
+		<result property="deliveryPrice" column="delivery_price"
+			jdbcType="DECIMAL" />
+		<result property="averageTime" column="average_time" jdbcType="INTEGER" />
+		<result property="openTime" column="open_time" jdbcType="TIME" />
+		<result property="closeTime" column="close_time" jdbcType="TIME" />
+		<result property="phone" column="phone" jdbcType="VARCHAR" />
+		<result property="announcement" column="announcement" jdbcType="VARCHAR" />
+		<result property="attitudeScore" column="attitude_score"
+			jdbcType="DECIMAL" />
+		<result property="dishScore" column="dish_score" jdbcType="DECIMAL" />
+		<result property="monthlySale" column="monthly_sale" jdbcType="INTEGER" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<result property="flag" column="flag" jdbcType="INTEGER" />
+		<association property="poi"
+			resultMap="xyz.zwc.waimai.dao.PoiMapper.poiResultMap"></association>
+		<association property="productCats"
+			resultMap="xyz.zwc.waimai.dao.ProductCatMapper.productCatResultMap2"></association>
+	</resultMap>
+
+	<select id="selectByCat" resultMap="shopResultMap">
+		select * from shops s inner
+		join pois p on s.fk_pois_poiid=p.poiid and
+		s.fk_shop_cats_shopcatid=#{shopCat.shopcatid} and p.longitude &lt;
+		#{lon1}
+		and p.longitude &gt; #{lon2} and p.latitude &lt; #{lat1} and
+		p.latitude &gt; #{lat2}
+	</select>
+
+	<select id="selectByTag" resultMap="shopResultMap">
+		select * from shops s inner
+		join pois p on s.fk_pois_poiid=p.poiid and p.longitude &lt; #{lon1}
+		and
+		p.longitude &gt; #{lon2} and p.latitude &lt; #{lat1} and p.latitude
+		&gt; #{lat2}
+		inner join shops_has_shop_tags t on s.shopid =
+		t.fk_shops_shopid and
+		t.fk_shop_tags_tagid=#{shopTag.tagid}
+	</select>
+
+	<select id="selectByCatAndTag" resultMap="shopResultMap">
+		select * from shops s
+		inner join pois p on s.fk_pois_poiid=p.poiid and
+		s.fk_shop_cats_shopcatid=#{shopCat.shopcatid} and p.longitude &lt;
+		#{lon1}
+		and p.longitude &gt; #{lon2} and p.latitude &lt; #{lat1} and
+		p.latitude &gt; #{lat2}
+		inner join shops_has_shop_tags t on s.shopid =
+		t.fk_shops_shopid and
+		t.fk_shop_tags_tagid=#{shopTag.tagid}
+	</select>
+
+	<select id="selectAll" resultMap="shopResultMap">
+		select * from shops s inner
+		join pois p on s.fk_pois_poiid=p.poiid and p.longitude &lt; #{lon1}
+		and p.longitude &gt; #{lon2} and p.latitude &lt; #{lat1} and
+		p.latitude &gt; #{lat2} order by fk_shop_states_shop_state
+	</select>
+
+	<select id="selectById" resultMap="shopResultMap">
+		select *,pc.name as
+		pcname,p.name as pname,p.fk_files_icon as
+		pfk_files_icon,p.monthly_sale as
+		pmonthly_sale,p.attitude_score as
+		pattitude_score,p.dish_score as
+		pdish_score,p.create_time as
+		pcreate_time from shops s inner
+		join pois
+		on
+		s.fk_pois_poiid=pois.poiid
+		inner
+		join product_cats pc on
+		s.shopid=pc.fk_shops_shopid inner join
+		products
+		p on
+		pc.pdcatid=p.fk_product_cats_pdcatid where
+		s.shopid=#{shopid}
+	</select>
+
+	<update id="updateScore">
+		update shops set
+		dish_score=#{dishscore},attitude_score=#{attitudescore} where
+		shopid=#{shopid}
+	</update>
+
+	<select id="selectLast" resultMap="shopResultMap">
+		select * from shops order by
+		shopid desc limit 1
+	</select>
+
+	<insert id="insert" parameterType="Shop">
+		insert into
+		shops(shopid,name,fk_shop_cats_shopcatid,fk_users_userid,fk_files_icon,fk_pois_poiid,fk_qualifications_qualificationid,fk_delivery_rules_delivery_rule,fk_shop_states_shop_state,address,base_price,delivery_price,average_time,open_time,close_time,phone,announcement,attitude_score,dish_score,monthly_sale,create_time,flag)
+		values
+		(#{shopid},#{name},#{fkShopCatsShopcatid},#{fkUsersUserid},#{fkFilesIcon},#{fkPoisPoiid},#{fkQualificationsQualificationid},#{fkDeliveryRulesDeliveryRule},#{fkShopStatesShopState},#{address},#{basePrice},#{deliveryPrice},#{averageTime},#{openTime},#{closeTime},#{phone},#{announcement},#{attitudeScore},#{dishScore},#{monthlySale},#{createTime},#{flag})
+	</insert>
+
+	<insert id="insertShopTag">
+		insert into
+		shops_has_shop_tags(fk_shops_shopid,fk_shop_tags_tagid) values
+		(#{shopid},#{tagid})
+	</insert>
+</mapper>

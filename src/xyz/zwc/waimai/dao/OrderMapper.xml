@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zwc.waimai.dao.OrderMapper">
+	<resultMap type="Order" id="orderResultMap">
+		<id column="orderid" property="orderid" jdbcType="INTEGER" />
+		<result column="fk_order_states_state" property="fkOrderStatesState"
+			jdbcType="INTEGER" />
+		<result column="fk_cust_addresses_custaddid" property="fkCustAddressCustaddid"
+			jdbcType="INTEGER" />
+		<result column="fk_shops_shopid" property="fkShopsShopid"
+			jdbcType="INTEGER" />
+		<result column="fk_delivery_rules_delivery_rule" property="fkDeliveryRulesDeliveryRule"
+			jdbcType="INTEGER" />
+		<result column="fk_users_userid" property="fkUserUserid"
+			jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="custname" property="custname" jdbcType="VARCHAR" />
+		<result column="shopname" property="shopname" jdbcType="VARCHAR" />
+		<result column="total_price" property="totalPrice" jdbcType="DECIMAL" />
+		<result column="ac_payment" property="acPayment" jdbcType="DECIMAL" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<association property="orderItems"
+			resultMap="xyz.zwc.waimai.dao.OrderItemMapper.orderItemResultMap"></association>
+	</resultMap>
+
+	<sql id="key">
+		<trim suffixOverrides=",">
+			<if test="orderid!=null">orderid,</if>
+			<if test="fkOrderStatesState!=null">fk_order_states_state,</if>
+			<if test="fkCustAddressCustaddid!=null">fk_cust_addresses_custaddid,</if>
+			<if test="fkShopsShopid!=null">fk_shops_shopid,</if>
+			<if test="fkDeliveryRulesDeliveryRule!=null">fk_delivery_rules_delivery_rule,</if>
+			<if test="fkUserUserid!=null">fk_users_userid,</if>
+			<if test="createTime!=null">create_time,</if>
+			<if test="custname!=null">custname,</if>
+			<if test="shopname!=null">shopname,</if>
+			<if test="totalPrice!=null">total_price,</if>
+			<if test="acPayment!=null">ac_payment,</if>
+			<if test="phone!=null">phone,</if>
+			<if test="address!=null">address,</if>
+		</trim>
+	</sql>
+
+	<sql id="value">
+		<trim suffixOverrides=",">
+			<if test="orderid!=null">#{orderid},</if>
+			<if test="fkOrderStatesState!=null">#{fkOrderStatesState},</if>
+			<if test="fkCustAddressCustaddid!=null">#{fkCustAddressCustaddid},</if>
+			<if test="fkShopsShopid!=null">#{fkShopsShopid},</if>
+			<if test="fkDeliveryRulesDeliveryRule!=null">#{fkDeliveryRulesDeliveryRule},</if>
+			<if test="fkUserUserid!=null">#{fkUserUserid},</if>
+			<if test="createTime!=null">#{createTime},</if>
+			<if test="custname!=null">#{custname},</if>
+			<if test="shopname!=null">#{shopname},</if>
+			<if test="totalPrice!=null">#{totalPrice},</if>
+			<if test="acPayment!=null">#{acPayment},</if>
+			<if test="phone!=null">#{phone},</if>
+			<if test="address!=null">#{address},</if>
+		</trim>
+	</sql>
+
+	<select id="selectLast" resultMap="orderResultMap">
+		select * from orders order by
+		orderid desc limit 1
+	</select>
+
+	<insert id="insert" parameterType="Order">
+		insert into orders (
+		<include refid="key"></include>
+		) values (
+		<include refid="value"></include>
+		)
+	</insert>
+
+	<update id="changeState">
+		update orders set fk_order_states_state=#{orderstate}
+		where orderid = #{orderid}
+	</update>
+
+	<select id="selectByUserid" resultMap="orderResultMap">
+		select * from orders o
+		inner join order_items oi on o.orderid=oi.fk_orders_orderid inner join
+		products p on oi.fk_products_productid=p.productid where
+		o.fk_users_userid=#{userid} order by o.create_time desc
+	</select>
+
+	<update id="updateShopSale">update shops set monthly_sale=monthly_sale+#{sale}
+		where shopid=#{shopid}
+	</update>
+
+	<update id="updateProductSale">update products set monthly_sale=monthly_sale+#{sale}
+		where productid=#{productid}
+	</update>
+
+	<select id="selectByOrderid" resultMap="orderResultMap">
+		select * from orders
+		inner join order_items on orders.orderid=order_items.fk_orders_orderid
+		where orders.orderid=#{orderid}
+	</select>
+</mapper>

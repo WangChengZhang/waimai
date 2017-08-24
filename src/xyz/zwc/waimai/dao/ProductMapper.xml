@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zwc.waimai.dao.ProductMapper">
+	<resultMap type="Product" id="productResultMapper">
+		<id property="productid" column="productid" jdbcType="INTEGER"></id>
+		<result property="name" column="name" jdbcType="VARCHAR"></result>
+		<result property="fkShopsShopid" column="fk_shops_shopid"
+			jdbcType="INTEGER"></result>
+		<result property="fkFilesIcon" column="fk_files_icon" jdbcType="INTEGER"></result>
+		<result property="fkFilesPicture" column="fk_files_picture"
+			jdbcType="INTEGER"></result>
+		<result property="fkProductCatsPdcatid" column="fk_product_cats_pdcatid"
+			jdbcType="INTEGER"></result>
+		<result property="price" column="price" jdbcType="DECIMAL"></result>
+		<result property="discount" column="discount" jdbcType="DECIMAL"></result>
+		<result property="monthlySale" column="monthly_sale" jdbcType="INTEGER"></result>
+		<result property="description" column="description" jdbcType="VARCHAR"></result>
+		<result property="attitudeScore" column="attitude_score"
+			jdbcType="DECIMAL"></result>
+		<result property="dishScore" column="dish_score" jdbcType="DECIMAL"></result>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"></result>
+		<result property="flag" column="flag" jdbcType="INTEGER"></result>
+		<association property="shop"
+			resultMap="xyz.zwc.waimai.dao.ShopMapper.shopResultMap2"></association>
+	</resultMap>
+
+	<resultMap type="Product" id="productResultMapper2">
+		<id property="productid" column="productid" jdbcType="INTEGER"></id>
+		<result property="name" column="pname" jdbcType="VARCHAR"></result>
+		<result property="fkShopsShopid" column="fk_shops_shopid"
+			jdbcType="INTEGER"></result>
+		<result property="fkFilesIcon" column="pfk_files_icon" jdbcType="INTEGER"></result>
+		<result property="fkFilesPicture" column="fk_files_picture"
+			jdbcType="INTEGER"></result>
+		<result property="fkProductCatsPdcatid" column="fk_product_cats_pdcatid"
+			jdbcType="INTEGER"></result>
+		<result property="price" column="price" jdbcType="DECIMAL"></result>
+		<result property="discount" column="discount" jdbcType="DECIMAL"></result>
+		<result property="monthlySale" column="pmonthly_sale" jdbcType="INTEGER"></result>
+		<result property="description" column="description" jdbcType="VARCHAR"></result>
+		<result property="attitudeScore" column="pattitude_score"
+			jdbcType="DECIMAL"></result>
+		<result property="dishScore" column="pdish_score" jdbcType="DECIMAL"></result>
+		<result property="createTime" column="pcreate_time" jdbcType="TIMESTAMP"></result>
+		<result property="flag" column="flag" jdbcType="INTEGER"></result>
+	</resultMap>
+
+	<select id="selectBySales" resultMap="productResultMapper">
+		select p.* from
+		products p
+		inner join product_cats pc on
+		pc.pdcatid=p.fk_product_cats_pdcatid
+		inner join shops s on
+		s.shopid=pc.fk_shops_shopid where
+		s.shopid=#{shopid} order by
+		p.monthly_sale desc
+	</select>
+
+	<select id="selectByScore" resultMap="productResultMapper">
+		select p.* from
+		products p
+		inner join product_cats pc on
+		pc.pdcatid=p.fk_product_cats_pdcatid
+		inner join shops s on
+		s.shopid=pc.fk_shops_shopid where
+		s.shopid=#{shopid} order by
+		p.dish_score desc
+	</select>
+
+	<select id="selectByPrice" resultMap="productResultMapper">
+		select p.* from
+		products p
+		inner join product_cats pc on
+		pc.pdcatid=p.fk_product_cats_pdcatid
+		inner join shops s on
+		s.shopid=pc.fk_shops_shopid where
+		s.shopid=#{shopid} order by
+		p.price
+	</select>
+
+	<select id="selectById" resultMap="productResultMapper">
+		select p.*,s.shopid,s.name as
+		shopname,s.delivery_price from products p inner join product_cats pc
+		on
+		pc.pdcatid=p.fk_product_cats_pdcatid inner join shops s on
+		s.shopid=pc.fk_shops_shopid where
+		productid = #{productid}
+	</select>
+
+	<update id="updateScore">
+		update products set
+		attitude_score=#{attitudescore},dish_score=#{dishscore} where
+		productid=#{productid}
+	</update>
+
+	<insert id="insert" parameterType="Product">
+		insert into
+		products(productid,name,fk_shops_shopid,fk_files_icon,fk_files_picture,fk_product_cats_pdcatid,price,discount,monthly_sale,description,attitude_score,dish_score,create_time,flag)
+		values
+		(#{productid},#{name},#{fkShopsShopid},#{fkFilesIcon},#{fkFilesPicture},#{fkProductCatsPdcatid},#{price},#{discount},#{monthlySale},#{description},#{attitudeScore},#{dishScore},#{createTime},#{flag})
+	</insert>
+
+	<select id="selectLast" resultMap="productResultMapper">
+		select * from products order
+		by productid desc limit 1
+	</select>
+</mapper>

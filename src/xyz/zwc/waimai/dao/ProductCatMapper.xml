@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zwc.waimai.dao.ProductCatMapper">
+	<resultMap type="ProductCat" id="productCatResultMap">
+		<id property="pdcatid" column="pdcatid" jdbcType="INTEGER"></id>
+		<result property="flag" column="flag" jdbcType="INTEGER"></result>
+		<result property="fkShopsShopid" column="fk_shops_shopid"
+			jdbcType="INTEGER"></result>
+		<result property="name" column="name" jdbcType="VARCHAR"></result>
+		<association property="products"
+			resultMap="xyz.zwc.waimai.dao.ProductMapper.productResultMapper"></association>
+	</resultMap>
+	<resultMap type="ProductCat" id="productCatResultMap2">
+		<id property="pdcatid" column="pdcatid" jdbcType="INTEGER"></id>
+		<result property="flag" column="flag" jdbcType="INTEGER"></result>
+		<result property="fkShopsShopid" column="fk_shops_shopid"
+			jdbcType="INTEGER"></result>
+		<result property="name" column="pcname" jdbcType="VARCHAR"></result>
+		<association property="products"
+			resultMap="xyz.zwc.waimai.dao.ProductMapper.productResultMapper2"></association>
+	</resultMap>
+
+	<insert id="insert" parameterType="ProductCat">
+		insert into
+		product_cats(pdcatid,flag,fk_shops_shopid,name) values
+		(#{pdcatid},#{flag},#{fkShopsShopid},#{name})
+	</insert>
+
+	<select id="selectLast" resultMap="productCatResultMap">
+		select * from product_cats
+		order by pdcatid desc limit 1
+	</select>
+</mapper>

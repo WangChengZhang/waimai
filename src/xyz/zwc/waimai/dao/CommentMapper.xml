@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zwc.waimai.dao.CommentMapper">
+	<resultMap type="Comment" id="commentResultMap">
+		<id column="fk_orders_orderid" property="fkOrdersOrderid" jdbcType="INTEGER" />
+		<id column="fk_products_productid" property="fkProductsProductid"
+			jdbcType="INTEGER" />
+		<result column="fk_users_userid" property="fkUsersUserid"
+			jdbcType="INTEGER" />
+		<result column="comment" property="comment" jdbcType="VARCHAR" />
+		<result column="attitude_score" property="attitudeScore"
+			jdbcType="DECIMAL" />
+		<result column="dish_score" property="dishScore" jdbcType="DECIMAL" />
+		<association property="user"
+			resultMap="xyz.zwc.waimai.dao.UserMapper.userResultMap" />
+	</resultMap>
+
+	<select id="selectPage" resultMap="commentResultMap">
+		select
+		c.*,u.name,u.fk_files_icon from comments
+		c inner join users u
+		inner join
+		products p
+		on c.fk_products_productid =
+		p.productid inner
+		join
+		product_cats pc on
+		p.fk_product_cats_pdcatid =
+		pc.pdcatid inner
+		join
+		shops s on
+		pc.fk_shops_shopid = s.shopid where
+		s.shopid =
+		#{shopid} and
+		u.userid =
+		c.fk_users_userid limit
+		#{startpoint},#{pagesize}
+	</select>
+
+	<select id="selectCount" resultType="Integer">select
+		count(*) from
+		comments
+		c
+		inner join products p
+		on c.fk_products_productid =
+		p.productid
+		inner
+		join product_cats pc on
+		p.fk_product_cats_pdcatid =
+		pc.pdcatid
+		inner
+		join
+		shops s on
+		pc.fk_shops_shopid = s.shopid where
+		s.shopid =
+		#{shopid}
+	</select>
+
+	<insert id="insert" parameterType="Comment">
+		insert into
+		comments(fk_orders_orderid,fk_products_productid,fk_users_userid,comment,attitude_score,dish_score)
+		values
+		(#{fkOrdersOrderid},#{fkProductsProductid},#{fkUsersUserid},#{comment},#{attitudeScore},#{dishScore})
+	</insert>
+</mapper>

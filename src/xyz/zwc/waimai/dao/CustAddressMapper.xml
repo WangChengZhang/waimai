@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zwc.waimai.dao.CustAddressMapper">
+	<resultMap type="CustAddress" id="custAddressResultMap">
+		<id column="custaddid" property="custaddid" jdbcType="INTEGER" />
+		<result column="fk_users_userid" property="fkUsersUserid"
+			jdbcType="INTEGER" />
+		<result column="fk_pois_poiid" property="fkPoisPoiid" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="INTEGER" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<association property="poi"
+			resultMap="xyz.zwc.waimai.dao.PoiMapper.poiResultMap2"></association>
+	</resultMap>
+
+	<select id="selectByUserid" resultMap="custAddressResultMap">
+		select *,p.name as
+		pname,p.address as paddress from cust_addresses c inner join pois p on
+		c.fk_pois_poiid=p.poiid where c.fk_users_userid=#{userid}
+	</select>
+
+	<select id="selectLast" resultMap="custAddressResultMap">
+		select * from cust_addresses
+		order by custaddid desc limit 1
+	</select>
+
+	<insert id="insert" parameterType="CustAddress">
+		insert into cust_addresses
+		(custaddid,fk_users_userid,fk_pois_poiid,name,gender,address,phone)
+		values
+		(#{custaddid},#{fkUsersUserid},#{fkPoisPoiid},#{name},#{gender},#{address},#{phone})
+	</insert>
+
+	<update id="update" parameterType="CustAddress">
+		update cust_addresses
+		<set>
+			<if test="fkUsersUserid!=null">fk_users_userid=#{fkUsersUserid},</if>
+			<if test="fkPoisPoiid!=null">fk_pois_poiid=#{fkPoisPoiid},</if>
+			<if test="name!=null">name=#{name},</if>
+			<if test="gender!=null">gender=#{gender},</if>
+			<if test="address!=null">address=#{address},</if>
+			<if test="phone!=null">phone=#{phone},</if>
+		</set>
+		where custaddid=#{custaddid}
+	</update>
+
+	<delete id="delete" parameterType="CustAddress">
+		delete from cust_addresses
+		where custaddid=#{custaddid}
+	</delete>
+
+	<select id="select" resultMap="custAddressResultMap"
+		parameterType="CustAddress">
+		select *,p.name as
+		pname,p.address as paddress from
+		cust_addresses c inner join pois p on
+		c.fk_pois_poiid=p.poiid where
+		c.custaddid =
+		#{custaddid}
+	</select>
+</mapper>

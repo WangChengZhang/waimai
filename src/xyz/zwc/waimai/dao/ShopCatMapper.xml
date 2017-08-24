@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zwc.waimai.dao.ShopCatMapper">
+	<resultMap id="shopCatResultMap" type="ShopCat">
+		<id column="shopcatid" property="shopcatid" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="select" parameterType="ShopCat" resultMap="shopCatResultMap">
+		select * from shop_cats where shopcatid=#{shopcatid}
+	</select>
+
+	<select id="selectAll" resultMap="shopCatResultMap">
+		select * from shop_cats
+	</select>
+</mapper>
