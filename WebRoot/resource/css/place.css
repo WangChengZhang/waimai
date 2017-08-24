@@ -1,0 +1,52 @@
+@charset "utf-8";
+body {
+	background-color: #57D6FF;
+	padding-top: 70px;
+}
+.container.place {
+	background-color: #F8F8F8;
+	padding-top: 10px;
+	border-radius: 5px;
+	padding-bottom: 10px;
+}
+.place .col-md-1.col-lg-1 {
+	line-height: 100%;
+	white-space: nowrap;
+
+}
+
+.place .nav-pills {
+	background-color: #FFFFFF;
+}
+.current-poi{
+	margin-bottom: 70px;
+}
+.shops {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+.shops .media {
+	height: 200px;
+	background-color: #FFFFFF;
+	cursor: pointer;
+	font-size:14px;
+}
+.shops .media:hover {
+	background-color: #F8F8F8;
+	border: 2px solid #E7E7E7;
+}
+.shops .media a {
+	color: #484848;
+}
+
+.shops .media a:hover  {
+	text-decoration: none;
+}
+.shops .media img {
+	width: 100px;
+	height: 100px;
+	background-color: #A7A7A7;
+}
+body>.jumbotron {
+	margin-top: 50px;
+}

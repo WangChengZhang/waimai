@@ -1,0 +1,4 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<div class="jumbotron">
+  <p class="text-center">&copy;章望成</p>
+</div>

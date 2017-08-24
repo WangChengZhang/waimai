@@ -1,0 +1,66 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#topFixedNavbar1">
+				<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
+					class="icon-bar"></span><span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="${proPath}/home">外卖网</a>
+		</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="topFixedNavbar1">
+			<ul class="nav navbar-nav">
+				<c:choose>
+					<c:when test="${navigator.currentPage=='place'}">
+						<li class="active"><a href="javascript:void(0);">首页<span
+								class="sr-only">(current)</span></a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="${proPath}/place">首页</a></li>
+					</c:otherwise>
+				</c:choose>
+				<c:choose>
+					<c:when test="${navigator.currentPage=='order'}">
+						<li class="active"><a href="javascript:void(0);">我的订单<span
+								class="sr-only">(current)</span></a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="${proPath}/profile/order">我的订单</a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<c:choose>
+					<c:when test="${empty navigator.user}">
+						<li><a href="${proPath}/login">登陆/注册</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="dropdown"><a href="javascript:void(0);"
+							class="dropdown-toggle" data-toggle="dropdown" role="button"
+							aria-expanded="false">${navigator.user.name}<span
+								class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="${proPath}/profile"><span
+										class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
+								<li><a href="${proPath}/profile/address"><span
+										class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
+								<li><a href="${proPath}/profile"><span
+										class="glyphicon glyphicon-cog" aria-hidden="true"></span>安全设置</a></li>
+								<li class="divider"></li>
+								<li><a href="${proPath}/login/logout"><span
+										class="glyphicon glyphicon-off" aria-hidden="true"></span>退出登录</a></li>
+							</ul></li>
+					</c:otherwise>
+				</c:choose>
+
+
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
+	</div>
+	<!-- /.container-fluid -->
+</nav>

@@ -1,0 +1,64 @@
+.jumbotron.home {
+	background-color: #0391E6;
+	min-height: 550px;
+}
+.jumbotron.home .text-center {
+	color: #FFFFFF;
+	font-family: "黑体";
+}
+
+.input-group .input-group-btn .btn.btn-default {
+	height: 60px;
+	min-width: 80px;
+}
+
+
+.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2 .input-group .form-control {
+	height: 60px;
+	-webkit-box-shadow: inset 0px 0px 10px #A1A1A1;
+	box-shadow: inset 0px 0px 10px #A1A1A1;
+}
+.input-group .input-group-btn .btn.btn-danger {
+	height: 60px;
+	min-width: 80px;
+}
+
+.dropdown-panel>.panel-danger>.panel-body {
+	max-height: 500px;
+	overflow-y: scroll;
+}
+
+.dropdown-panel .col-lg-2 {
+	overflow-x: hidden;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.city-input {
+
+}
+.dropdown-poi {
+	position: relative;
+	top: 60px;
+	z-index: 0;
+}
+
+.drop {
+	position: absolute;
+}
+.drop li {
+	cursor: pointer;
+}
+
+
+
+
+.dropdown-city {
+	position: relative;
+	z-index: 1;
+	top: 10px;
+}
+#container  {
+	border-radius: 5px;
+	margin-bottom: 10px;
+	border: 5px double #FFFFFF;
+}

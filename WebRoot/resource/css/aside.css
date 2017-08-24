@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+aside {
+	position: fixed;
+	right: 0px;
+	top: 50px;
+	bottom: 0px;
+	height: 100%;
+	clear: left;
+	background-color: #464646;
+	z-index: 1;
+}
+
+aside h1 {
+	display: block;
+	font-size: 40px;
+	width: 40px;
+	color: #FFFFFF;
+	text-align: center;
+	padding-top: 100px;
+	cursor: pointer;
+	float: left;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	height: 100%;
+}
+
+aside .trolley {
+	float: left;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	height: 100%;
+}
+
+.trolley .panel {
+	height: 100%;
+	padding-bottom: 100px;
+}
+
+.trolley .panel-body {
+	height: 100%;
+	overflow-y: scroll;
+	margin-bottom: 0px;
+}
